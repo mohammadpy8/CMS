@@ -47,3 +47,27 @@
     box-shadow: rgba(149, 157, 165, 0.6) 0 8px 24px;
     margin-right: 20px;
 }
+
+.edit-product-form-group {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    width: 100%;
+    background-color: #f4f4f4;
+    padding: 0 20px;
+    border-radius: 15px;
+}
+
+.edit-product-input {
+    outline: none;
+    border: none;
+    background-color: unset;
+    font-size: 1.1rem;
+    width: 100%;
+    padding: 8px 10px;
+}
+
+.edit-icon-form {
+    font-size: 1.5rem;
+}
