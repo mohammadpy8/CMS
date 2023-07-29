@@ -1,4 +1,13 @@
 import React from "react";
+import { TiInputChecked } from "react-icons/ti";
+import { BiDollar, BiImage } from "react-icons/bi";
+import {
+  MdTransitEnterexit,
+  MdOutlinePayments,
+  MdOutlineColorLens,
+} from "react-icons/md";
+import { LuPanelTopOpen } from "react-icons/lu";
+
 import "./AddNewProduct.css";
 
 const AddNewProduct = () => {
@@ -8,6 +17,7 @@ const AddNewProduct = () => {
       <form className="product-from">
         <div className="product-form-wrapp">
           <div className="product-form-group">
+            <TiInputChecked className="icon"/>
             <input
               type="text"
               placeholder="اسم محصول را بنویسید"
@@ -15,6 +25,7 @@ const AddNewProduct = () => {
             />
           </div>
           <div className="product-form-group">
+            <BiDollar className="icon"/>
             <input
               type="text"
               placeholder="قیمت محصول را بنویسید"
@@ -22,6 +33,7 @@ const AddNewProduct = () => {
             />
           </div>
           <div className="product-form-group">
+            <MdTransitEnterexit className="icon"/>
             <input
               type="text"
               placeholder="موجودی محصول را بنویسید"
@@ -29,6 +41,7 @@ const AddNewProduct = () => {
             />
           </div>
           <div className="product-form-group">
+            <BiImage className="icon"/>
             <input
               type="text"
               placeholder="آدرس عکس محصول را بنویسید"
@@ -36,6 +49,7 @@ const AddNewProduct = () => {
             />
           </div>
           <div className="product-form-group">
+            <LuPanelTopOpen className="icon"/>
             <input
               type="text"
               placeholder="میزان محبوبیت محصول را بنویسید"
@@ -43,6 +57,7 @@ const AddNewProduct = () => {
             />
           </div>
           <div className="product-form-group">
+            <MdOutlinePayments className="icon"/>
             <input
               type="text"
               placeholder="میزان فروش محصول را بنویسید"
@@ -50,6 +65,7 @@ const AddNewProduct = () => {
             />
           </div>
           <div className="product-form-group">
+            <MdOutlineColorLens className="icon"/>
             <input
               type="text"
               placeholder="تعداد رنگبندی محصول را بنویسید"
@@ -57,6 +73,7 @@ const AddNewProduct = () => {
             />
           </div>
         </div>
+        <button className="admin-btn">ثبت محصول</button>
       </form>
     </div>
   );
