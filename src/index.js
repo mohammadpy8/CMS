@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter} from "react-router-dom";
 import "./custom.css";
 
-const root = ReactDOM.createRoot(document.querySelector('body'));
+const root = ReactDOM.createRoot(document.querySelector('#root'));
 root.render(
   <BrowserRouter>
      <App />
