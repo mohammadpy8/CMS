@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import DetailsModal from "../DetailsModal/DetailsModal";
 
 import "./ProductTable.css";
 
 const ProductTable = () => {
+
   const [isShowModal, setIsShowModal] = useState(false);
+  const [isDetailsModal, setDetailsModal] = useState(false);
 
   const ModalHandler = () => setIsShowModal(true);
   const deleteModalCancelAction = () => setIsShowModal(false);
   const deleteModalSubmitAction = () => setIsShowModal(false);
+  const ModalDetailHandler = () => setDetailsModal(true);
+  const closeDetailsModalAction = () => setDetailsModal(false);
 
   return (
     <>
@@ -31,7 +36,7 @@ const ProductTable = () => {
             <td>920000</td>
             <td>82</td>
             <td>
-              <button className="product-table-btn">جزئیات</button>
+              <button className="product-table-btn" onClick={ModalDetailHandler}>جزئیات</button>
               <button className="product-table-btn" onClick={ModalHandler}>
                 حذف
               </button>
@@ -45,6 +50,11 @@ const ProductTable = () => {
         <DeleteModal
           deleteModalCancelAction={deleteModalCancelAction}
           deleteModalSubmitAction={deleteModalSubmitAction}
+        />
+      )}
+      {isDetailsModal && (
+        <DetailsModal
+          closeDetailsModalAction={closeDetailsModalAction}
         />
       )}
     </>
