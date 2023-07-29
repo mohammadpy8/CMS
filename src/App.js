@@ -3,13 +3,13 @@ import SideBar from "./components/SideBar/SideBar";
 import Header from "./components/Header/Header";
 
 import { useRoutes } from "react-router-dom";
-import Routes from "./routes";
+import routes from "./routes";
 
 import "./App.css";
 
 function App() {
 
-  const Router = useRoutes(Routes)
+  const router = useRoutes(routes)
 
   return (
     <>
@@ -17,9 +17,9 @@ function App() {
       <div className="main">
         <Header />
 
-        {Router}
+        {router}
 
-      </div>
+      </div> 
     </>
   );
 }

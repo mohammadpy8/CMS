@@ -1,11 +1,10 @@
 import React from 'react';
 import "./Orders.css";
+import ErrorBox from '../ErrorBox/ErrorBox';
 
 const Orders = () => {
     return (
-        <div>
-            
-        </div>
+        <ErrorBox msg="هیچ سفارشی یافت نشد" />
     );
 };
 

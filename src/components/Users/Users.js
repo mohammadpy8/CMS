@@ -1,11 +1,10 @@
 import React from 'react';
+import ErrorBox from '../ErrorBox/ErrorBox';
 import "./Users.css";
 
 const Users = () => {
     return (
-        <div>
-            
-        </div>
+        <ErrorBox msg="هیچ کاربری یافت نشد" />
     );
 };
 

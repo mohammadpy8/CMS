@@ -5,7 +5,7 @@ import { BiCommentDetail } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
 import { BsBagCheck } from "react-icons/bs";
 
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 import "./SideBar.css";
 
