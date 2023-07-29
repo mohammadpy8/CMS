@@ -4,48 +4,52 @@ import { MdProductionQuantityLimits } from "react-icons/md";
 import { BiCommentDetail } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
 import { BsBagCheck } from "react-icons/bs";
+
+import {Link} from "react-router-dom"
+
 import "./SideBar.css";
 
 const SideBar = () => {
+  
   return (
     <div className="sideBar">
       <h1 className="sideBar-title">به داشبورد خود خوش آمدید</h1>
       <ul className="sideBar-links">
         <li>
-          <a href="#">
+          <Link to="/products">
             <AiOutlineHome className="saidebar-icon"/>
             صفحه اصلی
-          </a>
+          </Link>
         </li>
         <li className="active">
-          <a href="#">
+          <Link to="/products">
             <MdProductionQuantityLimits className="saidebar-icon"/>
             محصولات
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#">
+          <Link to="/comments">
             <BiCommentDetail className="saidebar-icon"/>
             کامنت ها
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#">
+          <Link to="/users">
             <FiUsers className="saidebar-icon"/>
             کاربران
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#">
+          <Link to="/orders">
             <BsBagCheck className="saidebar-icon"/>
             سفارشات
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="#">
+          <Link to="/offs">
             <AiOutlineDollar className="saidebar-icon"/>
             تخفیف ها
-          </a>
+          </Link>
         </li>
       </ul>
     </div>
