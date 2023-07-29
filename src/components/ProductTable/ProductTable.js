@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
+import EditModal from "../EditModal/EditModal";
 
 import "./ProductTable.css";
 
@@ -8,12 +9,15 @@ const ProductTable = () => {
 
   const [isShowModal, setIsShowModal] = useState(false);
   const [isDetailsModal, setDetailsModal] = useState(false);
+  const [isEditeModal, setEditeModal] = useState(false);
 
   const ModalHandler = () => setIsShowModal(true);
   const deleteModalCancelAction = () => setIsShowModal(false);
   const deleteModalSubmitAction = () => setIsShowModal(false);
   const ModalDetailHandler = () => setDetailsModal(true);
   const closeDetailsModalAction = () => setDetailsModal(false);
+  const ModalEditeHandler = () => setEditeModal(true);
+  const updateProductInfo = (event) => event.preventDefault();
 
   return (
     <>
@@ -36,11 +40,18 @@ const ProductTable = () => {
             <td>920000</td>
             <td>82</td>
             <td>
-              <button className="product-table-btn" onClick={ModalDetailHandler}>جزئیات</button>
+              <button
+                className="product-table-btn"
+                onClick={ModalDetailHandler}
+              >
+                جزئیات
+              </button>
               <button className="product-table-btn" onClick={ModalHandler}>
                 حذف
               </button>
-              <button className="product-table-btn">ویرایش</button>
+              <button className="product-table-btn" onClick={ModalEditeHandler}>
+                ویرایش
+              </button>
             </td>
           </tr>
         </tbody>
@@ -53,10 +64,14 @@ const ProductTable = () => {
         />
       )}
       {isDetailsModal && (
-        <DetailsModal
-          closeDetailsModalAction={closeDetailsModalAction}
-        />
+        <DetailsModal closeDetailsModalAction={closeDetailsModalAction} />
       )}
+      {isEditeModal &&
+        <EditModal
+          onClose={() => setEditeModal(false)}
+          onSubmit={updateProductInfo}
+        ></EditModal>
+      }
     </>
   );
 };
