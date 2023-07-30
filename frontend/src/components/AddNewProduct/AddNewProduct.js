@@ -38,7 +38,7 @@ const AddNewProduct = ({getAllProducts}) => {
 
     event.preventDefault();
 
-    fetch(`http://localhost:8000/api/products`, {
+    fetch(`http://localhost:8000/api/products/`, {
 
       method: "POST",
       headers: {

@@ -20,16 +20,49 @@
     visibility: visible;
 }
 
+.cms-main {
+    margin-top: 60px;
+    padding: 20px;
+    border-radius: 25px;
+
+}
+
 .cms-table {
     margin-top: 20px;
     width: 100%;
     background-color: var(--white);
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
 }
 
 .cms-table tr {
     text-align: center; 
+    
 }
 
 .cms-table th, .cms-table td {
     padding: 20px;
+}
+
+.tr-border {
+    border-bottom: 1px solid rgba(149, 157, 165, 0.3);
+}
+
+.btn-comment {
+    border: none;
+    color: var(--white);
+    background-color: var(--blue);
+    border-radius: 15px;
+    padding: 9px 12px;
+    box-shadow: rgba(149, 157, 165, 0.7) 0 8px 24px;
+}
+
+.btn-comment-section {
+    border: none;
+    color: var(--white);
+    background-color: var(--blue);
+    border-radius: 15px;
+    padding: 9px 12px;
+    box-shadow: rgba(149, 157, 165, 0.7) 0 8px 24px;
+    margin-right: 10px;
 }
