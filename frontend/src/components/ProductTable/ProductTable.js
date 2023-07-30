@@ -9,6 +9,9 @@ import { BiImage } from "react-icons/bi";
 import { TiInputChecked } from "react-icons/ti";
 import { MdTransitEnterexit } from "react-icons/md";
 
+import showNotification from "../../shared/Toast";
+import { ToastContainer } from 'react-toastify';
+
 import "./ProductTable.css";
 
 const ProductTable = () => {
@@ -17,18 +20,38 @@ const ProductTable = () => {
   const [isDetailsModal, setDetailsModal] = useState(false);
   const [isEditeModal, setEditeModal] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
+  const [productID, setProductID] = useState(null);
 
   useEffect(() => {
+
+    getAllProducts();
+
+  }, []);
+
+  const getAllProducts = () => {
 
     fetch("http://localhost:8000/api/products/")
       .then((response) => response.json())
       .then((products) => setAllProducts(products));
-    
-  }, []);
+  
+  };
 
-  const ModalHandler = () => setIsShowModal(true);
   const deleteModalCancelAction = () => setIsShowModal(false);
-  const deleteModalSubmitAction = () => setIsShowModal(false);
+
+  const deleteModalSubmitAction = () => {
+
+    fetch(`http://localhost:8000/api/products/${productID}`, {
+
+      method: "DELETE",
+    })
+      .then(response => response.json())
+      .then(result => {
+        setIsShowModal(false);
+        showNotification("محصول با موفقیت حذف شد");
+        getAllProducts();
+      });
+
+  };
   const ModalDetailHandler = () => setDetailsModal(true);
   const closeDetailsModalAction = () => setDetailsModal(false);
   const ModalEditeHandler = () => setEditeModal(true);
@@ -68,7 +91,10 @@ const ProductTable = () => {
                     </button>
                     <button
                       className="product-table-btn"
-                      onClick={ModalHandler}
+                      onClick={() => {
+                        setIsShowModal(true)
+                        setProductID(id)
+                      }}
                     >
                       حذف
                     </button>
@@ -144,6 +170,7 @@ const ProductTable = () => {
           </div>
         </EditModal>
       )}
+      <ToastContainer />
     </>
   );
 };
