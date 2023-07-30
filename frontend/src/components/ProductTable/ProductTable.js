@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import EditModal from "../EditModal/EditModal";
+import ErrorBox from "../ErrorBox/ErrorBox";
 
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { BiImage } from "react-icons/bi";
@@ -35,54 +36,57 @@ const ProductTable = () => {
 
   return (
     <>
-      <table className="product-table">
-        <thead>
-          <tr className="product-table-heading-tr">
-            <th>عکس</th>
-            <th>اسم</th>
-            <th>قیمت</th>
-            <th>موجودی</th>
-          </tr>
-        </thead>
+      {allProducts.length ? (
+        <table className="product-table">
+          <thead>
+            <tr className="product-table-heading-tr">
+              <th>عکس</th>
+              <th>اسم</th>
+              <th>قیمت</th>
+              <th>موجودی</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {allProducts.map((product) => {
-            const { id, title, price, colors, img, count, popularity } =
-              product;
-            return (
-              <tr className="product-table-tr" key={id}>
-                <td>
-                  <img
-                    src={img}
-                    alt="img"
-                    className="product-table-img"
-                  />
-                </td>
-                <td>{title}</td>
-                <td>{price}</td>
-                <td>{count}</td>
-                <td>
-                  <button
-                    className="product-table-btn"
-                    onClick={ModalDetailHandler}
-                  >
-                    جزئیات
-                  </button>
-                  <button className="product-table-btn" onClick={ModalHandler}>
-                    حذف
-                  </button>
-                  <button
-                    className="product-table-btn"
-                    onClick={ModalEditeHandler}
-                  >
-                    ویرایش
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+          <tbody>
+            {allProducts.map((product) => {
+              const { id, title, price, colors, img, count, popularity } =
+                product;
+              return (
+                <tr className="product-table-tr" key={id}>
+                  <td>
+                    <img src={img} alt="img" className="product-table-img" />
+                  </td>
+                  <td>{title}</td>
+                  <td>{price}</td>
+                  <td>{count}</td>
+                  <td>
+                    <button
+                      className="product-table-btn"
+                      onClick={ModalDetailHandler}
+                    >
+                      جزئیات
+                    </button>
+                    <button
+                      className="product-table-btn"
+                      onClick={ModalHandler}
+                    >
+                      حذف
+                    </button>
+                    <button
+                      className="product-table-btn"
+                      onClick={ModalEditeHandler}
+                    >
+                      ویرایش
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <ErrorBox msg="هیچ محصولی یافت نشد" />
+      )}
 
       {isShowModal && (
         <DeleteModal
