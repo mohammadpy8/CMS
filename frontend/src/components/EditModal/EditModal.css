@@ -21,6 +21,7 @@
     background-color: var(--blue);
     border-radius: 15px;
     font-size: 1.1rem;
+    box-shadow: rgba(149, 157, 165, 0.7) 0 8px 24px;
 }
 
 .close-icon-edit {
