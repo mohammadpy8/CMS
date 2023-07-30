@@ -16,12 +16,11 @@ import { ToastContainer } from "react-toastify";
 
 import "./ProductTable.css";
 
-const ProductTable = () => {
+const ProductTable = ({allProducts, getAllProducts}) => {
 
   const [isShowModal, setIsShowModal] = useState(false);
   const [isDetailsModal, setDetailsModal] = useState(false);
   const [isEditeModal, setEditeModal] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
   const [productID, setProductID] = useState(null);
   const [mainProductInfo, setMainProductInfo] = useState({});
 
@@ -32,20 +31,6 @@ const ProductTable = () => {
   const [productNewPopular, setProductNewPopular] = useState("");
   const [productNewSale, setProductNewSale] = useState("");
   const [productNewColors, setProductNewColors] = useState("");
-
-  useEffect(() => {
-
-    getAllProducts();
-  }, []);
-   
-
-  const getAllProducts = () => {
-
-    fetch("http://localhost:8000/api/products/")
-      .then((response) => response.json())
-      .then((product) => setAllProducts(product));
-    
-  };
 
   const deleteModalCancelAction = () => setIsShowModal(false);
 

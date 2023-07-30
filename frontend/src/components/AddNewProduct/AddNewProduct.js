@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from 'axios'
 
 import { TiInputChecked } from "react-icons/ti";
 import { BiDollar, BiImage } from "react-icons/bi";
@@ -15,7 +14,7 @@ import { ToastContainer } from "react-toastify";
 
 import "./AddNewProduct.css";
 
-const AddNewProduct = () => {
+const AddNewProduct = ({getAllProducts}) => {
 
   const [newProductTitle, setNewProductTitle] = useState("");
   const [newProductPrice, setNewProductPrice] = useState("");
@@ -25,24 +24,22 @@ const AddNewProduct = () => {
   const [newProductSale, setNewProductSale] = useState("");
   const [newProductColors, setNewProductColors] = useState("");
 
+  const newProductsInfos = {
+    title: newProductTitle,
+    price: newProductPrice,
+    count: newProductCount,
+    img: newProductImg,
+    popularity: newProductPopular,
+    sale: newProductSale,
+    colors: newProductColors,
+  };
+
   const addNewProduct = (event) => {
 
     event.preventDefault();
 
-    const newProductsInfos = {
-
-      title: newProductTitle,
-      price: newProductPrice,
-      count: newProductCount,
-      img: newProductImg,
-      popularity: newProductPopular,
-      sale: newProductSale,
-      colors: newProductColors,
-
-    };
-
     fetch(`http://localhost:8000/api/products`, {
-      
+
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -51,10 +48,24 @@ const AddNewProduct = () => {
     })
       .then(res => res.json())
       .then(result => {
-        console.log(result)
-        showNotification("محصول با موفقیت اضافه شد")
+        console.log(result);
+        showNotification("محصول با موفقیت اضافه شد");
+        getAllProducts();
+        clearInput();
       })
-    .catch(err => console.log(err))
+      .catch(err => console.log(err));   
+
+  };
+
+  const clearInput = () => {
+
+    setNewProductTitle("");
+    setNewProductPrice("");
+    setNewProductCount("");
+    setNewProductImg("");
+    setNewProductPopular("");
+    setNewProductSale("");
+    setNewProductColors("");
 
   };
 
