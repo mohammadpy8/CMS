@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ErrorBox from "../ErrorBox/ErrorBox";
 import DetailsModal from "../DetailsModal/DetailsModal";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import EditModal from "../EditModal/EditModal";
 
 import { MdClose } from "react-icons/md";
 
@@ -11,34 +12,32 @@ import { ToastContainer } from "react-toastify";
 import "./Comments.css";
 
 const Comments = () => {
-
   const [allComments, setAllComments] = useState([]);
   const [isShowDetailsModal, setIsShowDetailsModal] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [mainCommentBody, setMainCommentBody] = useState("");
   const [commentID, setCommentId] = useState(null);
+  const [newComment, setNewComment] = useState("");
+  const [textComment, setTextComment] = useState({});
 
-    useEffect(() => {
-      
-        getCommentsApi();
-        
-    }, []);
-    
-    const getCommentsApi = () => {
+  useEffect(() => {
+    getCommentsApi();
+  }, []);
 
-        fetch("http://localhost:8000/api/comments/")
-            .then((response) => response.json())
-            .then((comment) => {
-                setAllComments(comment);
-                console.log(comment);
-            })
-            .catch((err) => console.log(err));
-    };
+  const getCommentsApi = () => {
+    fetch("http://localhost:8000/api/comments/")
+      .then((response) => response.json())
+      .then((comment) => {
+        setAllComments(comment);
+        console.log(comment);
+      })
+      .catch((err) => console.log(err));
+  };
 
   const closeDetailModal = () => setIsShowDetailsModal(false);
 
-    useEffect(() => {
-      
+  useEffect(() => {
     const checkKey = (event) => {
       if (event.keyCode === 27) {
         setIsShowDetailsModal(false);
@@ -52,17 +51,41 @@ const Comments = () => {
 
   const deleteModalCancelAction = () => setIsShowDeleteModal(false);
 
-    const deleteModalSubmitAction = () => {
-      
+  const deleteModalSubmitAction = () => {
     fetch(`http://localhost:8000/api/comments/${commentID}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
       .then((result) => {
         console.log(result);
-          showNotification("کامنت با موفقیت حذف شد");
-          setIsShowDeleteModal(false);
-          getCommentsApi();
+        showNotification("کامنت با موفقیت حذف شد");
+        setIsShowDeleteModal(false);
+        getCommentsApi();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const onSubmit = (event) => {
+    const newCommentEdite = {
+      body: newComment,
+    };
+
+    event.preventDefault();
+
+    fetch(`http://localhost:8000/api/comments/${commentID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCommentEdite),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        showNotification("ویرایش کامنت با موفقیت انجام شد");
+        getCommentsApi();
+          setIsShowEditModal(false);
+          setNewComment("");
       })
       .catch((err) => console.log(err));
   };
@@ -112,7 +135,15 @@ const Comments = () => {
                     >
                       حذف
                     </button>
-                    <button className="btn-comment-section">ویرایش</button>
+                    <button
+                      className="btn-comment-section"
+                      onClick={() => {
+                        setIsShowEditModal(true);
+                        setTextComment(body);
+                      }}
+                    >
+                      ویرایش
+                    </button>
                     <button className="btn-comment-section">پاسخ</button>
                     <button className="btn-comment-section">تایید</button>
                   </td>
@@ -144,6 +175,21 @@ const Comments = () => {
           deleteModalCancelAction={deleteModalCancelAction}
           deleteModalSubmitAction={deleteModalSubmitAction}
         />
+      )}
+      {isShowEditModal && (
+        <EditModal
+          onSubmit={onSubmit}
+          onClose={() => setIsShowEditModal(false)}
+        >
+          <h1 className="comment-now">کامنت فعلی</h1>
+          <p className="text-comment">{textComment}</p>
+          <textarea
+            placeholder="کامنت جدید را وارد کنید"
+            className="comment-edit-text"
+            value={newComment}
+            onChange={(event) => setNewComment(event.target.value)}
+          />
+        </EditModal>
       )}
       <ToastContainer />
     </div>

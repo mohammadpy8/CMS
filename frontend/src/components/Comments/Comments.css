@@ -27,4 +27,25 @@
     font-size: 2rem;
     cursor: pointer;
   }
+
+  .comment-now {
+    margin: 15px 0;
+    font-size: 1.7rem;
+  }
+
+  .text-comment {
+    margin-bottom: 15px;
+    color: var(--blue);
+  }
+
+  textarea {
+    resize: none;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: #f4f4f4;
+    height: 90px;
+    padding: 5px;
+    border-radius: 10px;
+  }
   
