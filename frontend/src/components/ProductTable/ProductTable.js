@@ -7,7 +7,9 @@ import ErrorBox from "../ErrorBox/ErrorBox";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { BiImage } from "react-icons/bi";
 import { TiInputChecked } from "react-icons/ti";
-import { MdTransitEnterexit, MdClose } from "react-icons/md";
+import { MdTransitEnterexit, MdClose, MdOutlineInvertColors } from "react-icons/md";
+import { LiaLeanpub } from "react-icons/lia";
+import { GiMoneyStack } from "react-icons/gi";
 
 import showNotification from "../../shared/Toast";
 import { ToastContainer } from "react-toastify";
@@ -23,11 +25,19 @@ const ProductTable = () => {
   const [productID, setProductID] = useState(null);
   const [mainProductInfo, setMainProductInfo] = useState({});
 
+  const [productNewTitle, setProductNewTitle] = useState("");
+  const [productNewPrice, setProductNewPrice] = useState("");
+  const [productNewCount, setProductNewCount] = useState("");
+  const [productNewImg, setProductNewImg] = useState("");
+  const [productNewPopular, setProductNewPopular] = useState("");
+  const [productNewSale, setProductNewSale] = useState("");
+  const [productNewColors, setProductNewColors] = useState("");
+
   useEffect(() => {
 
     getAllProducts();
   }, []);
-
+   
 
   const getAllProducts = () => {
 
@@ -55,7 +65,6 @@ const ProductTable = () => {
   };
 
   const closeDetailsModalAction = () => setDetailsModal(false);
-  const ModalEditeHandler = () => setEditeModal(true);
   const updateProductInfo = (event) => event.preventDefault();
 
   return (
@@ -104,7 +113,18 @@ const ProductTable = () => {
                     </button>
                     <button
                       className="product-table-btn"
-                      onClick={ModalEditeHandler}
+                      onClick={() => {
+                        
+                        setEditeModal(true)
+                        setMainProductInfo(product)
+                        setProductNewTitle(product.title)
+                        setProductNewPrice(product.price)
+                        setProductNewCount(product.count)
+                        setProductNewImg(product.img)
+                        setProductNewPopular(product.popularity)
+                        setProductNewSale(product.sale)
+                        setProductNewColors(product.colors)
+                      }}
                     >
                       ویرایش
                     </button>
@@ -160,6 +180,7 @@ const ProductTable = () => {
             </span>
             <input
               type="text"
+              value={productNewTitle}
               placeholder="عنوان جدید را وارد کنید"
               className="edit-product-input"
             />
@@ -170,6 +191,7 @@ const ProductTable = () => {
             </span>
             <input
               type="text"
+              value={productNewPrice}
               placeholder="قیمت جدید را وارد کنید"
               className="edit-product-input"
             />
@@ -180,6 +202,7 @@ const ProductTable = () => {
             </span>
             <input
               type="text"
+              value={productNewCount}
               placeholder="موجودی جدید را وارد کنید"
               className="edit-product-input"
             />
@@ -190,7 +213,41 @@ const ProductTable = () => {
             </span>
             <input
               type="text"
+              value={productNewImg}
               placeholder="آدرس عکس جدید را وارد کنید"
+              className="edit-product-input"
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <LiaLeanpub className="edit-icon-form" />
+            </span>
+            <input
+              type="text"
+              value={productNewPopular}
+              placeholder=" میزان محبوبیت جدید را وارد کنید"
+              className="edit-product-input"
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <GiMoneyStack className="edit-icon-form" />
+            </span>
+            <input
+              type="text"
+              value={productNewSale}
+              placeholder=" میزان فروش جدید را وارد کنید"
+              className="edit-product-input"
+            />
+          </div>
+          <div className="edit-product-form-group">
+            <span>
+              <MdOutlineInvertColors className="edit-icon-form" />
+            </span>
+            <input
+              type="text"
+              value={productNewColors}
+              placeholder=" تعداد رنگبندی جدید را وارد کنید"
               className="edit-product-input"
             />
           </div>
