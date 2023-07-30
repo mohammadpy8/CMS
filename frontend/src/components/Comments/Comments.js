@@ -16,6 +16,7 @@ const Comments = () => {
   const [isShowDetailsModal, setIsShowDetailsModal] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [isShowAcceptModal, setIsShowAcceptModal] = useState(false);
   const [mainCommentBody, setMainCommentBody] = useState("");
   const [commentID, setCommentId] = useState(null);
   const [newComment, setNewComment] = useState("");
@@ -84,10 +85,15 @@ const Comments = () => {
         console.log(result);
         showNotification("ویرایش کامنت با موفقیت انجام شد");
         getCommentsApi();
-          setIsShowEditModal(false);
-          setNewComment("");
+        setIsShowEditModal(false);
+        setNewComment("");
       })
       .catch((err) => console.log(err));
+  };
+
+  const deleteModalSubmit = () => {
+    setIsShowAcceptModal(false);
+    showNotification("تایید با موفقیت انجام شد");
   };
 
   return (
@@ -145,7 +151,12 @@ const Comments = () => {
                       ویرایش
                     </button>
                     <button className="btn-comment-section">پاسخ</button>
-                    <button className="btn-comment-section">تایید</button>
+                    <button
+                      className="btn-comment-section"
+                      onClick={() => setIsShowAcceptModal(true)}
+                    >
+                      تایید
+                    </button>
                   </td>
                 </tr>
               );
@@ -174,6 +185,7 @@ const Comments = () => {
         <DeleteModal
           deleteModalCancelAction={deleteModalCancelAction}
           deleteModalSubmitAction={deleteModalSubmitAction}
+          title="آیا از حذف مطمعن هستید؟"
         />
       )}
       {isShowEditModal && (
@@ -190,6 +202,13 @@ const Comments = () => {
             onChange={(event) => setNewComment(event.target.value)}
           />
         </EditModal>
+      )}
+      {isShowAcceptModal && (
+        <DeleteModal
+          title="آیا از تایید اطمینان دارید؟"
+          deleteModalSubmitAction={deleteModalSubmit}
+          deleteModalCancelAction={() => setIsShowAcceptModal(false)}
+        />
       )}
       <ToastContainer />
     </div>

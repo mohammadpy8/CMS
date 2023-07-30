@@ -5,12 +5,12 @@ import "./DeleteModal.css";
 
 const DeleteModal = (props) => {
 
-  const { deleteModalCancelAction, deleteModalSubmitAction } = props;
+  const { deleteModalCancelAction, deleteModalSubmitAction, title } = props;
 
   return reactDOM.createPortal(
     <div className="modal-parent active">
       <div className="delete-modal">
-        <h1>آیا از حذف مطمعن هستید؟</h1>
+        <h1>{title}</h1>
         <div className="delete-modal-btn">
           <button
             className="delete-btn delete-modal-accept"

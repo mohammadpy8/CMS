@@ -161,6 +161,7 @@ const ProductTable = ({allProducts, getAllProducts}) => {
         <DeleteModal
           deleteModalCancelAction={deleteModalCancelAction}
           deleteModalSubmitAction={deleteModalSubmitAction}
+          title="آیا از حذف مطمعن هستید؟"
         />
       )}
       {isDetailsModal && (
