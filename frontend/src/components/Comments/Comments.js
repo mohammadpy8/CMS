@@ -1,28 +1,39 @@
 import React, { useEffect, useState } from "react";
 import ErrorBox from "../ErrorBox/ErrorBox";
 import DetailsModal from "../DetailsModal/DetailsModal";
+import DeleteModal from "../DeleteModal/DeleteModal";
 
 import { MdClose } from "react-icons/md";
+
+import showNotification from "../../shared/Toast";
+import { ToastContainer } from "react-toastify";
 
 import "./Comments.css";
 
 const Comments = () => {
-    
+
   const [allComments, setAllComments] = useState([]);
   const [isShowDetailsModal, setIsShowDetailsModal] = useState(false);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [mainCommentBody, setMainCommentBody] = useState("");
+  const [commentID, setCommentId] = useState(null);
 
     useEffect(() => {
       
-    fetch("http://localhost:8000/api/comments/")
-      .then((response) => response.json())
-      .then((comment) => {
-        setAllComments(comment);
-        console.log(comment);
-      })
-            .catch((err) => console.log(err));
+        getCommentsApi();
         
-  }, []);
+    }, []);
+    
+    const getCommentsApi = () => {
+
+        fetch("http://localhost:8000/api/comments/")
+            .then((response) => response.json())
+            .then((comment) => {
+                setAllComments(comment);
+                console.log(comment);
+            })
+            .catch((err) => console.log(err));
+    };
 
   const closeDetailModal = () => setIsShowDetailsModal(false);
 
@@ -38,6 +49,23 @@ const Comments = () => {
 
     return () => window.removeEventListener("keydown", checkKey);
   });
+
+  const deleteModalCancelAction = () => setIsShowDeleteModal(false);
+
+    const deleteModalSubmitAction = () => {
+      
+    fetch(`http://localhost:8000/api/comments/${commentID}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+          showNotification("کامنت با موفقیت حذف شد");
+          setIsShowDeleteModal(false);
+          getCommentsApi();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="cms-main">
@@ -75,7 +103,15 @@ const Comments = () => {
                   <td>{date}</td>
                   <td>{hour}</td>
                   <td>
-                    <button className="btn-comment-section">حذف</button>
+                    <button
+                      className="btn-comment-section"
+                      onClick={() => {
+                        setIsShowDeleteModal(true);
+                        setCommentId(id);
+                      }}
+                    >
+                      حذف
+                    </button>
                     <button className="btn-comment-section">ویرایش</button>
                     <button className="btn-comment-section">پاسخ</button>
                     <button className="btn-comment-section">تایید</button>
@@ -103,6 +139,13 @@ const Comments = () => {
           </button>
         </DetailsModal>
       )}
+      {isShowDeleteModal && (
+        <DeleteModal
+          deleteModalCancelAction={deleteModalCancelAction}
+          deleteModalSubmitAction={deleteModalSubmitAction}
+        />
+      )}
+      <ToastContainer />
     </div>
   );
 };
