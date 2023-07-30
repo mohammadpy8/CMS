@@ -43,7 +43,7 @@ const ProductTable = () => {
 
     fetch("http://localhost:8000/api/products/")
       .then((response) => response.json())
-      .then((products) => setAllProducts(products));
+      .then((product) => setAllProducts(product));
     
   };
 
