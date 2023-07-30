@@ -13,10 +13,18 @@
     color: var(--white);
     margin-top: 20px;
     font-size: 1.1rem;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(156, 185, 247, 0.5);
   }
 
   .title-comment {
     font-size: 2rem;
     margin-bottom: 30px;
+  }
+
+  .icon-close-comment {
+    font-size: 2rem;
+    cursor: pointer;
   }
   
