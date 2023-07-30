@@ -4,7 +4,7 @@ import "./DetailsModal.css";
 
 const DetailsModal = (props) => {
 
-    const { closeDetailsModalAction } = props;
+    const { closeDetailsModalAction, children } = props;
     
     useEffect(() => {
 
@@ -23,27 +23,7 @@ const DetailsModal = (props) => {
   return (
     <div className=" modal-parent active">
       <div className="details-modal">
-        <MdClose
-          className="close-icon"
-          onClick={() => closeDetailsModalAction()}
-        />
-        <table className="cms-table">
-          <thead>
-            <tr>
-              <th>اسم</th>
-              <th>قیمت</th>
-              <th>محبوبیت</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>لپ تاپ</td>
-              <td>12,000,000</td>
-              <td>91%</td>
-            </tr>
-          </tbody>
-        </table>
+        {children}
       </div>
     </div>
   );

@@ -7,10 +7,10 @@ import ErrorBox from "../ErrorBox/ErrorBox";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { BiImage } from "react-icons/bi";
 import { TiInputChecked } from "react-icons/ti";
-import { MdTransitEnterexit } from "react-icons/md";
+import { MdTransitEnterexit, MdClose } from "react-icons/md";
 
 import showNotification from "../../shared/Toast";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 import "./ProductTable.css";
 
@@ -21,19 +21,20 @@ const ProductTable = () => {
   const [isEditeModal, setEditeModal] = useState(false);
   const [allProducts, setAllProducts] = useState([]);
   const [productID, setProductID] = useState(null);
+  const [mainProductInfo, setMainProductInfo] = useState({});
 
   useEffect(() => {
 
     getAllProducts();
-
   }, []);
+
 
   const getAllProducts = () => {
 
     fetch("http://localhost:8000/api/products/")
       .then((response) => response.json())
       .then((products) => setAllProducts(products));
-  
+    
   };
 
   const deleteModalCancelAction = () => setIsShowModal(false);
@@ -44,15 +45,15 @@ const ProductTable = () => {
 
       method: "DELETE",
     })
-      .then(response => response.json())
-      .then(result => {
+      .then((response) => response.json())
+      .then((result) => {
         setIsShowModal(false);
         showNotification("محصول با موفقیت حذف شد");
         getAllProducts();
       });
-
+    
   };
-  const ModalDetailHandler = () => setDetailsModal(true);
+
   const closeDetailsModalAction = () => setDetailsModal(false);
   const ModalEditeHandler = () => setEditeModal(true);
   const updateProductInfo = (event) => event.preventDefault();
@@ -80,20 +81,23 @@ const ProductTable = () => {
                     <img src={img} alt="img" className="product-table-img" />
                   </td>
                   <td>{title}</td>
-                  <td>{price}</td>
+                  <td>{price.toLocaleString()}</td>
                   <td>{count}</td>
                   <td>
                     <button
                       className="product-table-btn"
-                      onClick={ModalDetailHandler}
+                      onClick={() => {
+                        setDetailsModal(true);
+                        setMainProductInfo(product);
+                      }}
                     >
                       جزئیات
                     </button>
                     <button
                       className="product-table-btn"
                       onClick={() => {
-                        setIsShowModal(true)
-                        setProductID(id)
+                        setIsShowModal(true);
+                        setProductID(id);
                       }}
                     >
                       حذف
@@ -121,7 +125,29 @@ const ProductTable = () => {
         />
       )}
       {isDetailsModal && (
-        <DetailsModal closeDetailsModalAction={closeDetailsModalAction} />
+        <DetailsModal closeDetailsModalAction={closeDetailsModalAction}>
+          <MdClose
+            className="close-icon"
+            onClick={() => closeDetailsModalAction()}
+          />
+          <table className="cms-table">
+            <thead>
+              <tr>
+                <th>محبوبیت</th>
+                <th>فروش</th>
+                <th>رنگبندی</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>{mainProductInfo.popularity}</td>
+                <td>{mainProductInfo.sale.toLocaleString()}</td>
+                <td>{mainProductInfo.colors}</td>
+              </tr>
+            </tbody>
+          </table>
+        </DetailsModal>
       )}
       {isEditeModal && (
         <EditModal
