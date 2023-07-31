@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ErrorBox from "../ErrorBox/ErrorBox";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import EditModal from "../EditModal/EditModal";
+import DetailsModal from "../DetailsModal/DetailsModal";
 
 import showNotification from "../../shared/Toast";
 import { ToastContainer } from "react-toastify";
@@ -23,7 +24,9 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowEditeModal, setIsShowEditeModal] = useState(false);
+  const [isShowDetailsModal, setIsShowDetailsModal] = useState(false);
   const [userID, setUserID] = useState(null);
+  const [mainUserInfo, setMainUserInfo] = useState({});
 
   const [userNewFirstName, setUserNewFirstName] = useState("");
   const [userNewLastNmae, setUserNewLastNmae] = useState("");
@@ -82,21 +85,21 @@ const Users = () => {
 
     setIsShowEditeModal(false);
 
-      fetch(`http://localhost:8000/api/users/${userID}`, {
-          method: "PUT",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userNewInfos),
+    fetch(`http://localhost:8000/api/users/${userID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userNewInfos),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setIsShowEditeModal(false);
+        showNotification("اطلاعات کاربر با موفقیت ویرایش شد");
+        getAllUsers();
       })
-          .then(response => response.json())
-          .then(result => {
-              console.log(result);
-              setIsShowEditeModal(false);
-              showNotification("اطلاعات کاربر با موفقیت ویرایش شد");
-              getAllUsers();
-          })
-          .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -146,7 +149,15 @@ const Users = () => {
                     >
                       حذف
                     </button>
-                    <button className="btn-comment-section">جزئیات</button>
+                    <button
+                      className="btn-comment-section"
+                      onClick={() => {
+                        setMainUserInfo(user);
+                        setIsShowDetailsModal(true);
+                      }}
+                    >
+                      جزئیات
+                    </button>
                     <button
                       className="btn-comment-section"
                       onClick={() => {
@@ -305,6 +316,41 @@ const Users = () => {
             />
           </div>
         </EditModal>
+      )}
+      {isShowDetailsModal && (
+        <DetailsModal
+          closeDetailsModalAction={() => setIsShowDetailsModal(false)}
+        >
+          <MdClose
+            className="close-icon"
+            onClick={() => setIsShowDetailsModal(false)}
+          />
+          <table className="cms-table">
+            <thead>
+              <tr className="tr-border">
+                <th>شهر</th>
+                <th>آدرس</th>
+                <th>امتیاز</th>
+                <th>مقدار خرید</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>{mainUserInfo.city}</td>
+                <td>{mainUserInfo.address}</td>
+                <td>{mainUserInfo.score}</td>
+                <td>{mainUserInfo.buy}</td>
+              </tr>
+            </tbody>
+          </table>
+          <button
+            className="close-modal-details"
+            onClick={() => setIsShowDetailsModal(false)}
+          >
+            بستن
+          </button>
+        </DetailsModal>
       )}
       <ToastContainer />
     </div>

@@ -25,4 +25,16 @@
     font-size: 1.1rem;
     width: 100%;
   }
+
+  .close-modal-details {
+    width: 100%;
+    margin-top: 20px;
+    border: none;
+    color: var(--white);
+    background-color: var(--blue);
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 24px rgba(140, 210, 210, 0.3);
+  }
   
