@@ -17,6 +17,7 @@ const Comments = () => {
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [isShowAcceptModal, setIsShowAcceptModal] = useState(false);
+  const [isShowRejectModal, setIsShowRejectModal] = useState(false);
   const [mainCommentBody, setMainCommentBody] = useState("");
   const [commentID, setCommentId] = useState(null);
   const [newComment, setNewComment] = useState("");
@@ -105,7 +106,23 @@ const Comments = () => {
         getCommentsApi();
       })
       .catch((err) => console.log(err));
-  };
+    };
+    
+    const rejectModal = () => {
+
+        fetch(`http://localhost:8000/api/comments/reject/${commentID}`, {
+            method: "POST",
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                showNotification("کامنت رد شد");
+                setIsShowRejectModal(false);
+                getCommentsApi();
+            })
+            .catch(err => console.log(err));
+            setIsShowRejectModal(false);
+    };
 
   return (
     <div className="cms-main">
@@ -176,10 +193,12 @@ const Comments = () => {
                     ) : (
                       <button
                         className="btn-comment-section"
-                        disabled
-                        style={{ opacity: "0.7" }}
+                        onClick={() => {
+                          setIsShowRejectModal(true);
+                          setCommentId(id);
+                        }}
                       >
-                        <del>تایید</del>
+                        رد
                       </button>
                     )}
                   </td>
@@ -233,6 +252,13 @@ const Comments = () => {
           title="آیا از تایید اطمینان دارید؟"
           deleteModalSubmitAction={deleteModalSubmit}
           deleteModalCancelAction={() => setIsShowAcceptModal(false)}
+        />
+      )}
+      {isShowRejectModal && (
+        <DeleteModal
+          title="آیا از رد اطمینان دارید؟"
+          deleteModalSubmitAction={rejectModal}
+          deleteModalCancelAction={() => setIsShowRejectModal(false)}
         />
       )}
       <ToastContainer />
