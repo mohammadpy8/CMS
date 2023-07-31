@@ -25,6 +25,17 @@ const Users = () => {
   const [isShowEditeModal, setIsShowEditeModal] = useState(false);
   const [userID, setUserID] = useState(null);
 
+  const [userNewFirstName, setUserNewFirstName] = useState("");
+  const [userNewLastNmae, setUserNewLastNmae] = useState("");
+  const [userNewUserName, setUserNewUserName] = useState("");
+  const [userNewPassword, setUserNewPassword] = useState("");
+  const [userNewPhone, setUserNewPhone] = useState("");
+  const [userNewCity, setUserNewCity] = useState("");
+  const [userNewEmail, setUserNewEmail] = useState("");
+  const [userNewAddress, setUserNewAddress] = useState("");
+  const [userNewScore, setUserNewScore] = useState("");
+  const [userNewBuy, setUserNewBuy] = useState("");
+
   const getAllUsers = () => {
     fetch("http://localhost:8000/api/users/")
       .then((response) => response.json())
@@ -51,22 +62,42 @@ const Users = () => {
         getAllUsers();
       })
       .catch((err) => console.log(err));
+  };
+
+  const updateUser = (event) => {
+    event.preventDefault();
+
+    const userNewInfos = {
+      firsname: userNewFirstName,
+      lastname: userNewLastNmae,
+      username: userNewUserName,
+      password: userNewPassword,
+      phone: userNewPhone,
+      city: userNewCity,
+      email: userNewEmail,
+      address: userNewAddress,
+      score: userNewScore,
+      buy: userNewBuy,
     };
-    
-    const updateUser = (event) => {
 
-        event.preventDefault();
+    setIsShowEditeModal(false);
 
-        setIsShowEditeModal(false);
-
-        fetch(`http://localhost:8000/api/users/${userID}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-
-    }
+      fetch(`http://localhost:8000/api/users/${userID}`, {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userNewInfos),
+      })
+          .then(response => response.json())
+          .then(result => {
+              console.log(result);
+              setIsShowEditeModal(false);
+              showNotification("اطلاعات کاربر با موفقیت ویرایش شد");
+              getAllUsers();
+          })
+          .catch(err => console.log(err));
+  };
 
   return (
     <div className="cms-main">
@@ -93,6 +124,10 @@ const Users = () => {
                 password,
                 phone,
                 username,
+                city,
+                address,
+                buy,
+                score,
               } = user;
               return (
                 <tr key={id}>
@@ -115,8 +150,18 @@ const Users = () => {
                     <button
                       className="btn-comment-section"
                       onClick={() => {
-                          setIsShowEditeModal(true);
-                          setUserID(id);
+                        setIsShowEditeModal(true);
+                        setUserID(id);
+                        setUserNewFirstName(firsname);
+                        setUserNewLastNmae(lastname);
+                        setUserNewUserName(username);
+                        setUserNewPassword(password);
+                        setUserNewPhone(phone);
+                        setUserNewCity(city);
+                        setUserNewEmail(email);
+                        setUserNewAddress(address);
+                        setUserNewScore(score);
+                        setUserNewBuy(buy);
                       }}
                     >
                       ویرایش
@@ -138,14 +183,15 @@ const Users = () => {
         />
       )}
       {isShowEditeModal && (
-              <EditModal onClose={closeEditModal}
-              onSubmit={updateUser}>
+        <EditModal onClose={closeEditModal} onSubmit={updateUser}>
           <div className="edit-user-info-input-group">
             <span>
               <AiOutlineDollarCircle />
             </span>
             <input
               type="text"
+              value={userNewFirstName}
+              onChange={(event) => setUserNewFirstName(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -156,6 +202,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewLastNmae}
+              onChange={(event) => setUserNewLastNmae(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -166,6 +214,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewUserName}
+              onChange={(event) => setUserNewUserName(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -176,6 +226,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewPassword}
+              onChange={(event) => setUserNewPassword(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -186,6 +238,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewPhone}
+              onChange={(event) => setUserNewPhone(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -196,6 +250,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewCity}
+              onChange={(event) => setUserNewCity(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -206,6 +262,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewEmail}
+              onChange={(event) => setUserNewEmail(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -216,6 +274,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewAddress}
+              onChange={(event) => setUserNewAddress(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -226,6 +286,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewScore}
+              onChange={(event) => setUserNewScore(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
@@ -236,6 +298,8 @@ const Users = () => {
             </span>
             <input
               type="text"
+              value={userNewBuy}
+              onChange={(event) => setUserNewBuy(event.target.value)}
               className="edit-user-info-input"
               placeholder="نام جدید کاربر را وارد کنید"
             />
