@@ -94,6 +94,17 @@ const Comments = () => {
   const deleteModalSubmit = () => {
     setIsShowAcceptModal(false);
     showNotification("تایید با موفقیت انجام شد");
+
+    fetch(`http://localhost:8000/api/comments/accept/${commentID}`, {
+      method: "POST",
+    })
+      .then((respone) => respone.json())
+      .then((result) => {
+        console.log(result);
+        setIsShowAcceptModal(false);
+        getCommentsApi();
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -113,7 +124,8 @@ const Comments = () => {
 
           <tbody>
             {allComments.map((comment) => {
-              const { id, userID, productID, body, hour, date } = comment;
+              const { id, userID, productID, body, hour, date, isAccept } =
+                comment;
               return (
                 <tr key={id}>
                   <td>{userID}</td>
@@ -151,12 +163,25 @@ const Comments = () => {
                       ویرایش
                     </button>
                     <button className="btn-comment-section">پاسخ</button>
-                    <button
-                      className="btn-comment-section"
-                      onClick={() => setIsShowAcceptModal(true)}
-                    >
-                      تایید
-                    </button>
+                    {isAccept === 0 ? (
+                      <button
+                        className="btn-comment-section"
+                        onClick={() => {
+                          setIsShowAcceptModal(true);
+                          setCommentId(id);
+                        }}
+                      >
+                        تایید
+                      </button>
+                    ) : (
+                      <button
+                        className="btn-comment-section"
+                        disabled
+                        style={{ opacity: "0.7" }}
+                      >
+                        <del>تایید</del>
+                      </button>
+                    )}
                   </td>
                 </tr>
               );
